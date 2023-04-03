@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSignUp } from "../../hooks/useSignUp";
+import Nav from "./../../components/nav/nav";
 import "./signUp.css";
 
 const SignUp = () => {
@@ -7,12 +8,12 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { signUp, error } = useSignUp();
+  const { signUp, error, loading } = useSignUp();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      signUp(email, password, displayName);
+      await signUp(email, password, displayName);
       if (!error) {
         setDisplayName("");
         setEmail("");
@@ -27,6 +28,7 @@ const SignUp = () => {
   };
   return (
     <div className="login">
+      <Nav />
       <form onSubmit={handleSignUp}>
         <div className="login-box">
           <div className="user-box">
@@ -76,7 +78,7 @@ const SignUp = () => {
             <label>Confirm Password</label>
           </div>
 
-          <button type="submit">Sign Up</button>
+          <button type="submit">{loading ? "Loading..." : "Sign Up"}</button>
         </div>
       </form>
     </div>

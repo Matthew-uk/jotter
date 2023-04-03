@@ -19,8 +19,12 @@ export const useJotterStore = (collection) => {
     setLoading(false);
   };
 
-  const deleteDocument = (id) => {
-    store.doc(id).delete();
+  const deleteDocument = async (id) => {
+    try {
+      store.doc(id).delete();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return { addDocument, deleteDocument, loading };

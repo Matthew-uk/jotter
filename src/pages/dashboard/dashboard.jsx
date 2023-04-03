@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { useLogOut } from "../../hooks/useLogout";
 import { useJotterStore } from "../../hooks/useJotterStore";
 import { useCollection } from "../../hooks/useCollection";
 import Loading from "./../../components/loading/loading";
 import Note from "../../components/Notes/note";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import "./dashboard.css";
+import Nav from "../../components/nav/nav";
 
 const Dashboard = () => {
   const { logOut } = useLogOut();
   const { addDocument, deleteDocument } = useJotterStore("Notes");
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
+  const titleRef = useRef("");
+  const noteRef = useRef("");
   const { document, loading, error } = useCollection("Notes");
   const { user } = useAuthContext();
   const filteredDocs = document.filter((doc) => doc.uid === user.uid);
@@ -20,40 +22,50 @@ const Dashboard = () => {
   };
 
   const handleAddDocument = () => {
-    addDocument(title, note);
+    addDocument(titleRef.current.value, noteRef.current.value);
+    titleRef.current.value = "";
+    noteRef.current.value = "";
+  };
+
+  const NotesList = () => {
+    return (
+      <div className="notes">
+        {document &&
+          filteredDocs.map((doc) => (
+            <Note
+              key={doc.id.concat(doc.uid)}
+              deleteDocument={deleteDocument}
+              doc={doc}
+            />
+          ))}
+      </div>
+    );
   };
 
   const DashboardBody = () => {
     return (
-      <div>
-        <button onClick={handleLogOut}>Log Out</button>
+      <div className="dashboard">
+        <Nav />
         <div className="notepad">
-          <input
-            type="text"
-            placeholder="Title..."
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-          />
-          <textarea
-            placeholder="Enter Notes..."
-            cols="20"
-            rows="10"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          ></textarea>
+          <div className="wrapper">
+            <input
+              type="text"
+              className="title"
+              placeholder="Title..."
+              ref={titleRef}
+            />
+            <textarea
+              className="paper"
+              placeholder="Enter Notes..."
+              cols="20"
+              rows="10"
+              ref={noteRef}
+            ></textarea>
+          </div>
           {error && <p>{error}</p>}
           <button onClick={handleAddDocument}>Add Document</button>
         </div>
-        <div className="notes">
-          {document &&
-            filteredDocs.map((doc) => (
-              <Note
-                key={doc.id.concat(doc.uid)}
-                deleteDocument={deleteDocument}
-                doc={doc}
-              />
-            ))}
-        </div>
+        <NotesList />
       </div>
     );
   };

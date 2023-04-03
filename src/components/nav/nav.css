@@ -1,0 +1,41 @@
+.nav-container {
+  padding: 1em;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 37px;
+  padding: 0.1em 0em;
+  background: #00203fff;
+}
+
+.nav .nav-logo {
+  padding: 0.2em 0.7em;
+  font-size: 2em;
+  font-style: italic;
+  color: aliceblue;
+  cursor: pointer;
+  font-family: "Shadows Into Light", cursive;
+}
+
+.nav .nav-list .link {
+  padding: 0;
+  color: #adefd1ff;
+  text-decoration: none;
+  margin: 0;
+  padding: 0.5em;
+  margin-right: 0.8em;
+  border: 1px solid aliceblue;
+  border-radius: 5px;
+  font-family: cursive;
+  transition: all 0.4s ease-out;
+  font-size: 1em;
+}
+
+.nav .nav-list .link:hover {
+  color: aliceblue;
+  background: #adefd1ff;
+}

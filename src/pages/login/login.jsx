@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
 import "./login.css";
+import Nav from "./../../components/nav/nav";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const Login = () => {
   };
   return (
     <div className="login">
+      <Nav />
       <form onSubmit={handleLogin}>
         <div className="login-box">
           <div className="user-box">
